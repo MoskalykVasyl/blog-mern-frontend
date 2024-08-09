@@ -16,7 +16,7 @@ export const CommentsBlock = ({ items, children }) => {
           <React.Fragment key={index}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
-                {<Avatar alt={obj.user.fullName} src={`${process.env.API_URL}${obj.user.avatarUrl}`} />}
+                {<Avatar alt={obj.user.fullName} src={`${process.env.REACT_APP_API_URL}${obj.user.avatarUrl}`} />}
               </ListItemAvatar>
               {
                 <ListItemText

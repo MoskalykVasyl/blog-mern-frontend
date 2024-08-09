@@ -15,7 +15,7 @@ export const Home = () => {
   const { posts, tags} = useSelector(state => state.posts);
   const userData = useSelector(state => state.auth.data);
 
-  console.log('userData', userData);
+
 
 
   const isPostsLoading = posts.status === 'loading';
@@ -31,7 +31,6 @@ export const Home = () => {
   const onSortPosts = (typeSort)=>{
     dispatch(sortPosts(typeSort));
   }
-  console.log(tags);
   return (
     <>
       <Tabs style={{ marginBottom: 15 }}  value={posts.sortType} aria-label="basic tabs example">
@@ -47,7 +46,7 @@ export const Home = () => {
             key={obj._id}
               id={obj._id}
               title={obj.title}
-              imageUrl={obj.imageUrl ? `${process.env.API_URL}${obj.imageUrl}` : ''} 
+              imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''} 
               user={obj.user}
               createdAt={obj.createdAt}
               viewsCount={obj.viewsCount}

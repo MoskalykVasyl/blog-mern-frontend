@@ -33,7 +33,6 @@ export const Registration = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log('onSubmit',values);
     const fullData = {...values, imageUrl};
     const data = await dispatch(fetchRegister(fullData));
 
@@ -51,8 +50,7 @@ export const Registration = () => {
       const formData = new FormData();
       const file = event.target.files[0];
       formData.append('image', file)
-      const {data} = await axios.post(`${process.env.API_URL}/uploadAvatar`, formData);
-      console.log(data.url)
+      const {data} = await axios.post(`${process.env.REACT_APP_API_URL}/uploadAvatar`, formData);
       setImageUrl(data.url);
     } catch (err) {
       console.warn(err);
@@ -82,7 +80,7 @@ export const Registration = () => {
       {imageUrl ? (
         <>
        
-        <img className={styles.image} src={`${process.env.API_URL}${imageUrl}`} alt="Uploaded" />
+        <img className={styles.image} src={`${process.env.REACT_APP_API_URL}${imageUrl}`} alt="Uploaded" />
         <Button classes={{root:styles.button}} variant="contained" onClick={onClickRemoveImage} color="error" >
           Видалити
         </Button>

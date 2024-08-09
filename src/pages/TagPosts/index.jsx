@@ -20,7 +20,6 @@ export const TagPosts = () => {
   const {posts} = useSelector(state => state.posts);
   const userData = useSelector(state => state.auth.data);
 
-  console.log(posts)
 
   const isPostsLoading = posts.status === 'loading';
 
@@ -49,7 +48,7 @@ export const TagPosts = () => {
               key={obj._id}
               id={obj._id}
               title={obj.title}
-              imageUrl={obj.imageUrl ? `${process.env.API_URL}${obj.imageUrl}` : ''} 
+              imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''} 
               user={obj.user}
               createdAt={obj.createdAt}
               viewsCount={obj.viewsCount}

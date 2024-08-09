@@ -34,7 +34,7 @@ export const Index = ({ setData }) => {
   return (
     <>
       <div className={styles.root}>
-        <Avatar classes={{ root: styles.avatar }} src={ `${process.env.API_URL}${userData?.avatarUrl}`  } />
+        <Avatar classes={{ root: styles.avatar }} src={ `${process.env.REACT_APP_API_URL}${userData?.avatarUrl}`  } />
         <div className={styles.form}>
           <TextField
             onChange={(e) => setTextComment(e.target.value)}
