@@ -1,34 +1,41 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
+
 
 import styles from './Login.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { fetchRegister, selectIsAuth } from '../../redux/slices/auth';
 import { Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
+  const [imageUrl, setImageUrl] = useState('');
+  const inputFileRef = useRef(null);
+
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      fullName: 'Jack Sparow',
-      email: 'sparow@gmail.com',
-      password: '12345',
+      fullName: '',
+      email: '',
+      password: ''
     },
     mode: 'onChange',
   });
 
   const onSubmit = async (values) => {
-    const data = await dispatch(fetchRegister(values));
+    console.log('onSubmit',values);
+    const fullData = {...values, imageUrl};
+    const data = await dispatch(fetchRegister(fullData));
 
     if (!data.payload) {
       return alert('Не получилось зареєструватися');
@@ -39,18 +46,53 @@ export const Registration = () => {
     }
   };
 
+  const handleChangeFile = async(event) => {
+    try {
+      const formData = new FormData();
+      const file = event.target.files[0];
+      formData.append('image', file)
+      const {data} = await axios.post('http://localhost:4444/uploadAvatar', formData);
+      console.log(data.url)
+      setImageUrl(data.url);
+    } catch (err) {
+      console.warn(err);
+      alert('Помилка при завантажені файлу');
+    }
+  };
+
+  const onClickRemoveImage = () => {
+    setImageUrl('');
+  };
+
   if (isAuth) {
     return <Navigate to="/" />;
   }
   return (
     <Paper classes={{ root: styles.root }}>
       <Typography classes={{ root: styles.title }} variant="h5">
-        Создание аккаунта
+        Реєстрація
       </Typography>
-      <div className={styles.avatar}>
+      {/* <div className={styles.avatar}>
         <Avatar sx={{ width: 100, height: 100 }} />
-      </div>
+      </div> */}
+     
+      
       <form onSubmit={handleSubmit(onSubmit)}>
+      <input ref={inputFileRef} type="file" onChange={handleChangeFile}  hidden />
+      {imageUrl ? (
+        <>
+       
+        <img className={styles.image} src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
+        <Button classes={{root:styles.button}} variant="contained" onClick={onClickRemoveImage} color="error" >
+          Видалити
+        </Button>
+        </>
+      ) : (
+        <img className={styles.image} src='https://static.vecteezy.com/system/resources/previews/009/952/572/original/male-profile-picture-vector.jpg' alt='defaultAvatar'  />
+      )}
+       <Button classes={{root:styles.button}} onClick={()=>inputFileRef.current.click()} variant="outlined" size="large">
+        Загрузити фото
+      </Button>
       <TextField
         className={styles.field}
         label="Повне ім'я"
@@ -76,7 +118,7 @@ export const Registration = () => {
         fullWidth
       />
       <Button disabled={!isValid} type='submit' size="large" variant="contained" fullWidth>
-        Зарегистрироваться
+        Створити обліковий запис
       </Button>
       </form>
     </Paper>

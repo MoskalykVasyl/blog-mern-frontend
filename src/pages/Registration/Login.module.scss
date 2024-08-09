@@ -3,8 +3,15 @@
   padding: 50px;
   border: 1px solid #dedede;
   margin: 50px auto;
+ 
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .field {
   margin-bottom: 20px !important;
 }
@@ -19,4 +26,17 @@
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
+}
+
+.image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 1px !important;
+  
+}
+
+.button{
+  margin-bottom: 10px !important;
+
 }

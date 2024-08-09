@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAuthMe, selectIsAuth } from './redux/slices/auth';
 import { useEffect } from 'react';
+import { TagPosts } from './pages/TagPosts';
 
 function App() {
   const dispach = useDispatch();
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/posts/:id" element={<FullPost />} />
+          <Route path="/tags/:name" element={<TagPosts />} />
           <Route path="/posts/:id/edit" element={<AddPost />} />
           <Route path="/add-post" element={<AddPost />} />
           <Route path="/login" element={<Login />} />

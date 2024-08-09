@@ -1,50 +1,52 @@
 import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
 
+import styles from "./TagsPost.module.scss";
 
-import { Post } from '../components/Post';
-import { TagsBlock } from '../components/TagsBlock';
 
-import {fetchPosts, fetchTags, sortPosts} from '../redux/slices/posts'
+import { Post } from '../../components/Post'; 
+import { useParams } from 'react-router-dom';
+import { Typography } from '@mui/material';
+import { fetchPostByTag } from '../../redux/slices/posts';
 
-export const Home = () => {
+
+
+
+
+export const TagPosts = () => {
+  const {name} = useParams();
   const dispatch = useDispatch();
-  const { posts, tags} = useSelector(state => state.posts);
+  const {posts} = useSelector(state => state.posts);
   const userData = useSelector(state => state.auth.data);
 
-  console.log('userData', userData);
-
+  console.log(posts)
 
   const isPostsLoading = posts.status === 'loading';
-  const isTagsLoading = posts.status === 'loading';
 
   useEffect(()=>{
-    dispatch(fetchPosts())
-    dispatch(fetchTags())
-
+    dispatch(fetchPostByTag(name))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ ])
+  }, [])
 
-  const onSortPosts = (typeSort)=>{
-    dispatch(sortPosts(typeSort));
-  }
-  console.log(tags);
+
+
+ 
+
+  
+  
   return (
     <>
-      <Tabs style={{ marginBottom: 15 }}  value={posts.sortType} aria-label="basic tabs example">
-        <Tab onClick={()=>onSortPosts('new')} label="Нові" />
-        <Tab onClick={()=>onSortPosts('popular')} label="Популярні" />
-      </Tabs>
+      <Typography classes={{ root: styles.title }} variant="h5">
+        # {name}
+      </Typography>
       <Grid container spacing={4}>
         <Grid xs={8} item>
           {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) => isPostsLoading ? (
             <Post key={index} isLoading={true} />
           ) : (
             <Post
-            key={obj._id}
+              key={obj._id}
               id={obj._id}
               title={obj.title}
               imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''} 
@@ -58,10 +60,7 @@ export const Home = () => {
           )
           )}
         </Grid>
-        <Grid xs={4} item>
-          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
-         
-        </Grid>
+        
       </Grid>
     </>
   );

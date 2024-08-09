@@ -15,7 +15,6 @@ export const AddPost = () => {
   const {id} = useParams();
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
-  const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
@@ -99,13 +98,13 @@ export const AddPost = () => {
   return (
     <Paper style={{ padding: 30 }}>
       <Button onClick={()=>inputFileRef.current.click()} variant="outlined" size="large">
-        Загрузить превью
+        Загрузити фото
       </Button>
       <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden />
       {imageUrl && (
         <>
         <Button variant="contained" color="error" onClick={onClickRemoveImage}>
-          Удалить
+          Видалити
         </Button>
         <img className={styles.image} src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
         </>
@@ -116,12 +115,12 @@ export const AddPost = () => {
       <TextField
         classes={{ root: styles.title }}
         variant="standard"
-        placeholder="Заголовок статьи..."
+        placeholder="Загаловок статі..."
         value={title}
         onChange={(e)=>setTitle(e.target.value)}
         fullWidth
       />
-      <TextField classes={{ root: styles.tags }} variant="standard" placeholder="Тэги" 
+      <TextField classes={{ root: styles.tags }} variant="standard" placeholder="Теги" 
       value={tags}
       onChange={(e)=>setTags(e.target.value)}
       fullWidth />
@@ -131,7 +130,7 @@ export const AddPost = () => {
           {isEditing ? 'Зберегти' : 'Опублікувати'}
         </Button>
         <a href="/">
-          <Button size="large">Отмена</Button>
+          <Button size="large">Скасувати</Button>
         </a>
       </div>
     </Paper>
