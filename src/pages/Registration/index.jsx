@@ -51,7 +51,7 @@ export const Registration = () => {
       const formData = new FormData();
       const file = event.target.files[0];
       formData.append('image', file)
-      const {data} = await axios.post('http://localhost:4444/uploadAvatar', formData);
+      const {data} = await axios.post(`${process.env.API_URL}/uploadAvatar`, formData);
       console.log(data.url)
       setImageUrl(data.url);
     } catch (err) {
@@ -82,7 +82,7 @@ export const Registration = () => {
       {imageUrl ? (
         <>
        
-        <img className={styles.image} src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
+        <img className={styles.image} src={`${process.env.API_URL}${imageUrl}`} alt="Uploaded" />
         <Button classes={{root:styles.button}} variant="contained" onClick={onClickRemoveImage} color="error" >
           Видалити
         </Button>
